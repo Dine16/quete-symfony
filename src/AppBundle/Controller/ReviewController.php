@@ -3,12 +3,10 @@
 namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-
-use AppBundle\Entity\User;
-use AppBundle\Entity\Flight;
 
 /**
  * Review controller.
@@ -21,28 +19,34 @@ class ReviewController extends Controller
     /**
      * List one review with one user on one flight, with few IDs.
      *
-     * @Route("/{user_id}/flight/{flight_id}", name="review_index", requirements={"user_id": "\d+"})
+     * @Route("/", name="review_index")
      * @Method("GET")
-     * @ParamConverter("user", options={"mapping": {"user_id": "id"}})
-     * @ParamConverter("flight", options={"mapping": {"flight_id": "id"}})
+     * @return Response A Response instance
      */
 
-    public function indexAction(User $user, Flight $flight)
+    public function indexAction()
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $reviews = $em->getRepository('AppBundle:Review')->findAll();
+
         return $this->render('review/index.html.twig', array(
-            'user' => $user,
-            'flight' => $flight
+            'reviews' => $reviews,
         ));
     }
 
     /**
-     * @Route("/new/", name="review_new")
-     * @Method({"GET", "POST"})
+     * Creates a new review entity.
+     *
+     * @param Request $request New posted info
+     * @Route ("/new", name="review_new")
+     * @Method ({"GET", "POST"})
+     * @return Response A Response instance
      */
 
-    public function newAction()
+    public function newAction(Request $request)
     {
-        return $this->render('review/new.html.twig');
+        return $this->render($request);
     }
 }
 
