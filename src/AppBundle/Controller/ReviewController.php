@@ -17,7 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 class ReviewController extends Controller
 {
     /**
-     * List one review with one user on one flight, with few IDs.
+     * List all reviews.
      *
      * @Route("/", name="review_index")
      * @Method("GET")
