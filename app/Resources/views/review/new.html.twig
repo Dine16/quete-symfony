@@ -1,12 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Be patient, a new form is on its way!</h1>
+    <h1>Write a review</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input type="submit" value="Create" />
+    {{ form_end(form) }}
 
     <ul>
         <li>
-            <a href="/">Return to homepage</a>
+            <a href="{{ path('review_index') }}">Back to the reviews</a>
         </li>
     </ul>
-
 {% endblock %}
