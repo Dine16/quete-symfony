@@ -6,6 +6,7 @@ use AppBundle\Entity\Site;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Site controller.
@@ -19,6 +20,7 @@ class SiteController extends Controller
      *
      * @Route("/", name="site_index")
      * @Method("GET")
+     * @return Response A Response instance
      */
     public function indexAction()
     {
@@ -34,8 +36,11 @@ class SiteController extends Controller
     /**
      * Finds and displays a site entity.
      *
+     * @param Site $site The Site Entity
+     *
      * @Route("/{id}", name="site_show")
      * @Method("GET")
+     * @return Response A Response instance
      */
     public function showAction(Site $site)
     {
