@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    <h1>Your booking is confirmed!</h1>
+{% endblock %}
+
+{% block emailContent %}
+    <p>Thank you for flying with Flyaround.<br>
+        Please find the details of your flight down below.</p>
+    <ul>
+        <li>
+            <a href="{{ path('reservation_index') }}">Create a new reservation</a>
+        </li>
+    </ul>
+{% endblock %}

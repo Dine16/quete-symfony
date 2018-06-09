@@ -10,11 +10,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use AppBundle\Entity\Flight;
 use AppBundle\Entity\PlaneModel;
 use AppBundle\Entity\Reservation;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Listing controller.
  *
  * @Route("listing")
+ *
+ * @category Controller
+ * @package Controller
  */
 
 class ListingController extends Controller
@@ -27,6 +31,7 @@ class ListingController extends Controller
      * @ParamConverter("reservation", options={"mapping": {"reservation_id": "id"}})
      * @ParamConverter("flight", options={"mapping": {"flight_id": "id"}})
      * @ParamConverter("planemodel", options={"mapping": {"planemodel_id": "id"}})
+     * @return Response A Response instance
      */
 
     public function indexAction(Reservation $reservation, Flight $flight, PlaneModel $planemodel)

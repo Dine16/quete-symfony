@@ -3,9 +3,12 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Reservation;
+use AppBundle\Service\Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Reservation controller.
@@ -19,6 +22,7 @@ class ReservationController extends Controller
      *
      * @Route("/", name="reservation_index")
      * @Method("GET")
+     * @return Response A Response instance
      */
     public function indexAction()
     {
@@ -33,11 +37,15 @@ class ReservationController extends Controller
 
     /**
      * Creates a new reservation entity.
+     * @param Request $request New posted info
      *
+     * @param Mailer $mailer
+     * @return Response A Response instance
      * @Route("/new", name="reservation_new")
      * @Method({"GET", "POST"})
+     *
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, Mailer $mailer)
     {
         $reservation = new Reservation();
         $form = $this->createForm('AppBundle\Form\ReservationType', $reservation);
@@ -48,7 +56,17 @@ class ReservationController extends Controller
             $em->persist($reservation);
             $em->flush();
 
-            return $this->redirectToRoute('reservation_show', array('id' => $reservation->getId()));
+            // Pilot mail
+            $mailer->sendEmail(
+                $reservation->getFlight()->getPilot()->getEmail(),
+                'Booking notification');
+            // Passenger mail
+            $mailer->sendEmail(
+                $this->getUser()->getEmail(),
+                'Booking confirmation');
+
+            return $this->redirectToRoute('reservation_show', array(
+                'id' => $reservation->getId()));
         }
 
         return $this->render('reservation/new.html.twig', array(
@@ -62,6 +80,8 @@ class ReservationController extends Controller
      *
      * @Route("/{id}", name="reservation_show")
      * @Method("GET")
+     * @param Reservation $reservation
+     * @return Response A Response instance
      */
     public function showAction(Reservation $reservation)
     {
@@ -75,9 +95,12 @@ class ReservationController extends Controller
 
     /**
      * Displays a form to edit an existing reservation entity.
+     * @param Request $request Edit posted info
+     * @param Reservation $reservation
      *
      * @Route("/{id}/edit", name="reservation_edit")
      * @Method({"GET", "POST"})
+     * @return Response A Response instance
      */
     public function editAction(Request $request, Reservation $reservation)
     {
@@ -100,9 +123,12 @@ class ReservationController extends Controller
 
     /**
      * Deletes a reservation entity.
+     * @param Request $request Delete posted info
+     * @param Reservation $reservation
      *
      * @Route("/{id}", name="reservation_delete")
      * @Method("DELETE")
+     * @return Response A Response instance
      */
     public function deleteAction(Request $request, Reservation $reservation)
     {
