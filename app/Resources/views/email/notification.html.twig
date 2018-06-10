@@ -1,16 +1,12 @@
-{% extends 'base.html.twig' %}
+{% extends 'email/contact.html.twig' %}
 
-{% block title %}
-    <h1>Booking notification</h1>
+{% block body %}
+    <h2 style="color:#0E7693; font-size:22px; padding-top:12px;">Booking notification {{ reservation.flight }}</h2>
+
+    <div align="left" class="article-content">
+        <p>You have a new customer flying with Flyaround!</p>
+        <p>{{ reservation.nbReservedSeats }} seat(s) have been booked.</p>
+        <p>Flight details: {{ reservation.flight }}.</p>
+    </div>
 {% endblock %}
 
-{% block emailContent %}
-    <p>You have a new customer flying with Flyaround!</p>
-
-    <ul>
-        <li>
-            <a href="{{ path('reservation_index') }}">Back to the list</a>
-        </li>
-    </ul>
-
-{% endblock %}

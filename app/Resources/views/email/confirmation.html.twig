@@ -1,15 +1,11 @@
-{% extends 'base.html.twig' %}
+{% extends 'email/contact.html.twig' %}
 
-{% block title %}
-    <h1>Your booking is confirmed!</h1>
-{% endblock %}
+{% block body %}
+    <h2 style="color:#0E7693; font-size:22px; padding-top:12px;">Booking confirmation {{ reservation.flight }}</h2>
 
-{% block emailContent %}
-    <p>Thank you for flying with Flyaround.<br>
-        Please find the details of your flight down below.</p>
-    <ul>
-        <li>
-            <a href="{{ path('reservation_index') }}">Create a new reservation</a>
-        </li>
-    </ul>
+    <div align="left" class="article-content">
+        <p>{{ reservation.nbReservedSeats }} seat(s) have been booked.</p>
+        <p>Flight details: {{ reservation.flight }}.</p>
+        <p>Thank you for flying with Flyaround!</p>
+    </div>
 {% endblock %}

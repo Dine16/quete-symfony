@@ -1,11 +1,15 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Welcome to Flyaround!{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
 
 {% block body %}
-    <div align="left" class="article-content">
-        {% block emailContent %}
-        {% endblock %}
-        <p>
-            Thank you for flying with Flyaround.
-        </p>
-    </div>
 {% endblock %}
+
+{% block javascripts %}{% endblock %}
+</body>
+</html>
