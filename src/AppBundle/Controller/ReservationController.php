@@ -41,9 +41,11 @@ class ReservationController extends Controller
      *
      * @param Mailer $mailer
      * @return Response A Response instance
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      * @Route("/new", name="reservation_new")
      * @Method({"GET", "POST"})
-     *
      */
     public function newAction(Request $request, Mailer $mailer)
     {
@@ -57,13 +59,9 @@ class ReservationController extends Controller
             $em->flush();
 
             // Pilot mail
-            $mailer->sendEmail(
-                $reservation->getFlight()->getPilot()->getEmail(),
-                'Booking notification');
+            $mailer->sendMailPilot($reservation);
             // Passenger mail
-            $mailer->sendEmail(
-                $this->getUser()->getEmail(),
-                'Booking confirmation');
+            $mailer->sendMailPassenger($reservation);
 
             return $this->redirectToRoute('reservation_show', array(
                 'id' => $reservation->getId()));
